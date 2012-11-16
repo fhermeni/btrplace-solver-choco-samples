@@ -21,10 +21,9 @@ import btrplace.model.constraint.Oversubscription;
 import btrplace.model.constraint.Running;
 import btrplace.plan.ReconfigurationAlgorithm;
 import btrplace.plan.ReconfigurationPlan;
-import btrplace.solver.ChocoReconfigurationAlgorithm;
+import btrplace.solver.choco.ChocoReconfigurationAlgorithm;
+import btrplace.solver.choco.DefaultChocoReconfigurationAlgorithm;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -67,7 +66,7 @@ public class BasicPlacement {
 
         //All the VMs that are waiting must be running now
         m.attach(new Running(m.getMapping().getWaitingVMs()));
-        ReconfigurationAlgorithm solver = new ChocoReconfigurationAlgorithm();
+        ReconfigurationAlgorithm solver = new DefaultChocoReconfigurationAlgorithm();
         ReconfigurationPlan p = solver.solve(m);
     }
 
@@ -87,7 +86,7 @@ public class BasicPlacement {
         m.attach(new Running(m.getMapping().getWaitingVMs()));
         m.attach(new Oversubscription(m.getMapping().getOnlineNodes(), "mem", 1));
         m.attach(new Oversubscription(m.getMapping().getOnlineNodes(), "cpu", 2));
-        ReconfigurationAlgorithm solver = new ChocoReconfigurationAlgorithm();
+        ReconfigurationAlgorithm solver = new DefaultChocoReconfigurationAlgorithm();
         ReconfigurationPlan p = solver.solve(m);
     }
 
